@@ -35,7 +35,7 @@ const register = async (req, res) => {
 
         const insertUserResult = await dbInsert(body, "user");
 
-        if (insertUserResult && insertUserResult.code !== 0) {
+        if (!insertUserResult || insertUserResult.code !== 0) {
             return res
                 .status(400)
                 .send({ message: "Kayıt işlemi yapılamadı." });
@@ -51,49 +51,6 @@ const register = async (req, res) => {
             message: "Kayıt başarıyla oluşturuldu.",
             token: token,
         });
-
-        /*
-        const createdUser = await prisma.user.create({
-            data: {
-                username: body.username,
-                email: body.email,
-                password: hashedPassword,
-                phone: body.phone,
-                isActive: true,
-            },
-        });
-
-        if (!createdUser) {
-            return res.status(400).send({
-                message: "Kayıt işlemi yapılamadı.",
-            });
-        } else {
-            const token = createToken(createdUser.id);
-
-            if (!token) {
-                return res.status(400).send({
-                    message: "Bir hata oluştu.",
-                });
-            }
-
-            const insertedToken = await prisma.token.create({
-                data: {
-                    userId: createdUser.id,
-                    token: token,
-                },
-            });
-
-            if (!insertedToken) {
-                return res.status(400).send({
-                    message: "Bir hata oluştu.",
-                });
-            }
-
-            return res.status(200).send({
-                message: "Kayıt başarıyla oluşturuldu.",
-                token: token,
-            });
-        }*/
     } catch (error) {
         return res.status(400).send({
             message: error.message,

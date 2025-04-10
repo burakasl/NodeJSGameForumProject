@@ -17,9 +17,6 @@ validationSchemas.register = Joi.object({
         .regex(/[A-Z]/)
         .regex(/[0-9]/)
         .required(),
-    phone: Joi.string()
-        .pattern(/^[+]?[0-9\s-()]{7,15}$/)
-        .required(),
 });
 
 validationSchemas.createReview = Joi.object({
@@ -40,9 +37,13 @@ validationSchemas.createAdminAccount = Joi.object({
         .regex(/[A-Z]/)
         .regex(/[0-9]/)
         .required(),
-    phone: Joi.string()
-        .pattern(/^[+]?[0-9\s-()]{7,15}$/)
-        .required(),
+});
+
+validationSchemas.createGame = Joi.object({
+    name: Joi.string().required(),
+    releaseDate: Joi.date().required(),
+    description: Joi.string().min(30).max(100).required(),
+    score: Joi.number().precision(1).min(0).max(10).required(),
 });
 
 module.exports = validationSchemas;

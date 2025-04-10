@@ -5,6 +5,12 @@ const dbInsert = async (body, tableName) => {
     const data = {};
     const schema = dbMappingSchemas[tableName];
 
+    if (!schema) {
+        return {
+            code: 1,
+        };
+    }
+
     for (const field of schema) {
         if (body[field] !== undefined) {
             data[field] = body[field];

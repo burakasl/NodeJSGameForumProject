@@ -19,12 +19,6 @@ const register = async (req, res) => {
                 .send({ message: "E-posta adresi halihazırda kullanımda." });
         }
 
-        if (!(await checkPhoneAvailability(body.phone))) {
-            return res
-                .status(400)
-                .send({ message: "Telefon numarası halihazırda kullanımda." });
-        }
-
         const hashedPassword = await hashPassword(body.password);
 
         if (!hashedPassword) {
@@ -32,6 +26,18 @@ const register = async (req, res) => {
                 message: "Hash hatası",
             });
         }
+
+        body.password = hashedPassword;
+
+        const userRole = await prisma.role.findUnique({
+            where: { roleName: "user" },
+        });
+
+        if (!userRole) {
+            return res.status(400).send({ message: "Bir hata oluştu." });
+        }
+
+        body.roleId = userRole.id;
 
         const insertUserResult = await dbInsert(body, "user");
 
@@ -41,7 +47,7 @@ const register = async (req, res) => {
                 .send({ message: "Kayıt işlemi yapılamadı." });
         }
 
-        const token = createToken(insertUserResult.data.id);
+        const token = createToken(insertUserResult.data.id, "user");
 
         if (!token) {
             return res.status(400).send({ message: "Bir hata oluştu." });
@@ -72,16 +78,6 @@ const checkUsernameAvailability = async (username) => {
     const foundUser = await prisma.user.findUnique({
         where: {
             username: username,
-        },
-    });
-
-    return !foundUser;
-};
-
-const checkPhoneAvailability = async (phone) => {
-    const foundUser = await prisma.user.findUnique({
-        where: {
-            phone: phone,
         },
     });
 

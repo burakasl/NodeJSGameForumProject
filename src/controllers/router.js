@@ -9,19 +9,18 @@ const register = require("./user/auth/register");
 const createReview = require("./user/review/createReview");
 
 //Admin endpoints
-const createMovie = require("./admin/createMovie");
+const createGame = require("./admin/createGame");
 const clearDatabase = require("./admin/clearDatabase");
 const createAdminAccount = require("./admin/createAdminAccount");
 
 //Admin routes
 router.get("/clearDatabase", authorize, clearDatabase);
-router.post("/createMovie", validate, authorize, createMovie);
+router.post("/createMovie", validate, authorize, createGame);
 router.post("/createAdminAccount", validate, createAdminAccount);
 
 //User routes
 router.post("/login", validate, login);
 router.post("/register", validate, register);
 router.post("/createReview", validate, authorize, createReview);
-router.post("/createMovie", validate, authorize, createMovie);
 
 module.exports = router;

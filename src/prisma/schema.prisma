@@ -18,7 +18,6 @@ model User {
   username  String    @unique
   email     String    @unique
   password  String
-  phone     String    @unique
   roleId    String
   role      Role      @relation(fields: [roleId], references: [id], onDelete: Restrict)
   comments  Comment[]
@@ -33,29 +32,29 @@ model Library {
   id            String   @id @default(uuid())
   userId        String   @unique
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  libraryMovies LibraryMovie[]
+  libraryGames LibraryGame[]
   isActive      Boolean
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
 
-model LibraryMovie {
+model LibraryGame {
   id          String   @id @default(uuid())
   libraryId   String
   library     Library  @relation(fields: [libraryId], references: [id], onDelete: Cascade)
-  movieId     String
-  movie       Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  gameId     String
+  game       Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
 }
 
-model Movie {
+model Game {
   id            String    @id @default(uuid())
   name          String
   releaseDate   DateTime
   description   String
-  imdbScore     Float
+  score     Float
   reviews       Review[]
   imageUrl      String
-  libraryMovies LibraryMovie[]
+  libraryGames  LibraryGame[]
   isActive      Boolean
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -65,8 +64,8 @@ model Review {
   id        String    @id @default(uuid())
   userId    String    
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  movieId   String
-  movie     Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   title     String
   content   String
   score     Float

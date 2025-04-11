@@ -1,8 +1,12 @@
 const authSchemas = {};
 
-authSchemas.root = ["createAdminAccount"];
-
-authSchemas.admin = ["login", "createMovie", "clearDatabase", "createGame"];
+authSchemas.admin = [
+    "login",
+    "createMovie",
+    "clearDatabase",
+    "createGame",
+    "insertMockData",
+];
 
 authSchemas.user = [
     "login",

@@ -14,6 +14,7 @@ authSchemas.user = [
     "createReview",
     "viewProfile",
     "updateProfile",
+    "addGameToLibrary",
 ];
 
 module.exports = authSchemas;

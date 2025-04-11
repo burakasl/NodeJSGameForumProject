@@ -7,6 +7,7 @@ const authorize = require("../middlewares/authorization");
 const login = require("./user/auth/login");
 const register = require("./user/auth/register");
 const createReview = require("./user/review/createReview");
+const addGameToLibrary = require("./user/game/addGameToLibrary");
 
 //Admin endpoints
 const createGame = require("./admin/createGame");
@@ -24,5 +25,6 @@ router.post("/createAdminAccount", validate, createAdminAccount);
 router.post("/login", validate, login);
 router.post("/register", validate, register);
 router.post("/createReview", validate, authorize, createReview);
+router.post("/addGameToLibrary", validate, authorize, addGameToLibrary);
 
 module.exports = router;

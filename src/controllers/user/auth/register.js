@@ -2,28 +2,32 @@ const prisma = require("../../../prisma");
 const { createToken } = require("../../../services/tokenService");
 const { hashPassword } = require("../../../services/hashService");
 const { dbInsert } = require("../../../services/databaseMappingService");
+const {
+    generateMessage,
+    messageSchema,
+} = require("../../../services/messageService");
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     try {
         const body = req.body;
 
         if (!(await checkUsernameAvailability(body.username))) {
-            return res
-                .status(400)
-                .send({ message: "Kullanıcı adı halihazırda kullanımda." });
+            return res.status(400).send({
+                message: generateMessage(messageSchema.usernameInUse),
+            });
         }
 
         if (!(await checkEmailAvailability(body.email))) {
             return res
                 .status(400)
-                .send({ message: "E-posta adresi halihazırda kullanımda." });
+                .send({ message: generateMessage(messageSchema.emailInUse) });
         }
 
         const hashedPassword = await hashPassword(body.password);
 
         if (!hashedPassword) {
             return res.status(400).send({
-                message: "Hash hatası",
+                message: generateMessage(messageSchema.unknownError),
             });
         }
 
@@ -34,7 +38,9 @@ const register = async (req, res) => {
         });
 
         if (!userRole) {
-            return res.status(400).send({ message: "Bir hata oluştu." });
+            return res
+                .status(400)
+                .send({ message: generateMessage(messageSchema.unknownError) });
         }
 
         body.roleId = userRole.id;
@@ -44,17 +50,19 @@ const register = async (req, res) => {
         if (!insertUserResult || insertUserResult.code !== 0) {
             return res
                 .status(400)
-                .send({ message: "Kayıt işlemi yapılamadı." });
+                .send({ message: generateMessage(messageSchema.unknownError) });
         }
 
         const token = createToken(insertUserResult.data.id, "user");
 
         if (!token) {
-            return res.status(400).send({ message: "Bir hata oluştu." });
+            return res
+                .status(400)
+                .send({ message: generateMessage(messageSchema.unknownError) });
         }
 
         return res.status(200).send({
-            message: "Kayıt başarıyla oluşturuldu.",
+            message: generateMessage(messageSchema.createUser),
             token: token,
         });
     } catch (error) {

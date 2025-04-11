@@ -55,7 +55,7 @@ const authorize = async (req, res, next) => {
         return res.status(400).send({ message: "Kimlik doğrulama sorunu" });
     }
 
-    req.userId = userId;
+    req.body.userId = userId;
 
     next();
 };

@@ -11,10 +11,12 @@ const createReview = require("./user/review/createReview");
 //Admin endpoints
 const createGame = require("./admin/createGame");
 const clearDatabase = require("./admin/clearDatabase");
+const insertMockData = require("./admin/insertMockData");
 const createAdminAccount = require("./admin/createAdminAccount");
 
 //Admin routes
-router.get("/clearDatabase", authorize, clearDatabase);
+router.get("/clearDatabase", clearDatabase);
+router.get("/insertMockData", insertMockData);
 router.post("/createGame", validate, authorize, createGame);
 router.post("/createAdminAccount", validate, createAdminAccount);
 

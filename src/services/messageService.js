@@ -30,6 +30,9 @@ const generateMessage = (status) => {
 
         case "createAdmin":
             return "Admin hesabı başarıyla oluşturuldu.";
+
+        case "success":
+            return "İşlem başarıyla gerçekleştirildi.";
     }
 };
 
@@ -44,6 +47,7 @@ const messageSchema = {
     insertMockData: "insertMockData",
     createUser: "createUser",
     createAdmin: "createAdmin",
+    success: "success",
 };
 
 module.exports = { generateMessage, messageSchema };

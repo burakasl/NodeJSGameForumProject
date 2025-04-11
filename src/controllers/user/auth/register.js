@@ -61,6 +61,21 @@ const register = async (req, res, next) => {
                 .send({ message: generateMessage(messageSchema.unknownError) });
         }
 
+        const createdLibrary = await prisma.library.create({
+            data: {
+                userId: req.body.userId,
+                isActive: true,
+            },
+        });
+
+        if (!createdLibrary) {
+            return res
+                .status(400)
+                .send({
+                    message: generateMessage(messageSchema.databaseError),
+                });
+        }
+
         return res.status(200).send({
             message: generateMessage(messageSchema.createUser),
             token: token,

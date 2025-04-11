@@ -10,4 +10,13 @@ dbMappingSchemas.game = [
     "imageUrl",
 ];
 
+dbMappingSchemas.review = [
+    "userId",
+    "gameId",
+    "title",
+    "content",
+    "score",
+    "statusId",
+];
+
 module.exports = dbMappingSchemas;

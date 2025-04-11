@@ -3,7 +3,7 @@ const { verifyToken } = require("../services/tokenService");
 const authSchemas = require("../schemas/authorization");
 
 const authorize = async (req, res, next) => {
-    const path = req.route.path;
+    const path = req.route.path.replace("/", "");
 
     if (!path) {
         return res.status(400).send({ message: "Bir hata oluştu" });

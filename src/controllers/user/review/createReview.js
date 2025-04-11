@@ -1,27 +1,23 @@
-const prisma = require("../../../prisma");
+const { dbInsert } = require("../../../services/databaseMappingService");
+const {
+    generateMessage,
+    messageSchema,
+} = require("../../../services/messageService");
 
 const createReview = async (req, res) => {
     const body = req.body;
 
-    const insertedReview = await prisma.review.create({
-        data: {
-            userId: req.userId,
-            movieId: body.movieId,
-            title: body.title,
-            content: body.content,
-            score: body.score,
-            statusId: body.statusId,
-            isActive: true,
-        },
-    });
+    const insertedReview = await dbInsert(body, "review");
 
     if (!insertedReview) {
-        return res.status(400).send({ message: "Bir hata oluştu." });
+        return res
+            .status(400)
+            .send({ message: generateMessage(messageSchema.databaseError) });
     }
 
     return res
         .status(200)
-        .send({ message: "İşlem başarıyla gerçekleştirildi." });
+        .send({ message: generateMessage(messageSchema.success) });
 };
 
 module.exports = createReview;

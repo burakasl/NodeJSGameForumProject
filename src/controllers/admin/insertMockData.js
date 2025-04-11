@@ -1,6 +1,27 @@
 const prisma = require("../../prisma");
+const {
+    generateMessage,
+    messageSchema,
+} = require("../../services/messageService");
 
 const insertMockData = async (req, res) => {
+    const role = await prisma.role.createMany({
+        data: [{ roleName: "admin" }, { roleName: "user" }],
+    });
+
+    if (!role) {
+        return res
+            .status(400)
+            .send({ message: generateMessage(messageSchema.fail) });
+    }
+
+    const userRole = await prisma.role.findUnique({
+        where: { roleName: "user" },
+    });
+    const adminRole = await prisma.role.findUnique({
+        where: { roleName: "admin" },
+    });
+
     const createdUsers = await prisma.user.createMany({
         data: [
             {
@@ -8,7 +29,7 @@ const insertMockData = async (req, res) => {
                 email: "test@test.com",
                 password:
                     "$2b$10$pW8ndgpw9hAdAkh.GR1Wg.uP2O9/P9RYrCdhEcyTSeC6Eew8zzBSy",
-                roleId: "8ac66bc9-9a1f-4a2e-872e-1d61798fece8",
+                roleId: userRole.id,
                 isActive: true,
             },
             {
@@ -16,7 +37,7 @@ const insertMockData = async (req, res) => {
                 email: "test2@test.com",
                 password:
                     "$2b$10$pW8ndgpw9hAdAkh.GR1Wg.uP2O9/P9RYrCdhEcyTSeC6Eew8zzBSy",
-                roleId: "8ac66bc9-9a1f-4a2e-872e-1d61798fece8",
+                roleId: userRole.id,
                 isActive: true,
             },
             {
@@ -24,7 +45,7 @@ const insertMockData = async (req, res) => {
                 email: "test3@test.com",
                 password:
                     "$2b$10$pW8ndgpw9hAdAkh.GR1Wg.uP2O9/P9RYrCdhEcyTSeC6Eew8zzBSy",
-                roleId: "8ac66bc9-9a1f-4a2e-872e-1d61798fece8",
+                roleId: userRole.id,
                 isActive: true,
             },
         ],
@@ -33,7 +54,7 @@ const insertMockData = async (req, res) => {
     if (!createdUsers) {
         return res
             .status(400)
-            .send({ message: "Veri tabanına yazma işlemi başarısız oldu." });
+            .send({ message: generateMessage(messageSchema.fail) });
     }
 
     const admin = await prisma.user.create({
@@ -42,15 +63,30 @@ const insertMockData = async (req, res) => {
             email: "admin@test.com",
             password:
                 "$2b$10$pW8ndgpw9hAdAkh.GR1Wg.uP2O9/P9RYrCdhEcyTSeC6Eew8zzBSy",
-            roleId: "85074f04-dc1b-453d-ad86-2948f7925180",
+            roleId: adminRole.id,
+            isActive: true,
         },
     });
 
     if (!admin) {
         return res
             .status(400)
-            .send({ message: "Veri tabanına yazma işlemi başarısız oldu." });
+            .send({ message: generateMessage(messageSchema.fail) });
     }
+
+    const status = await prisma.status.createMany({
+        data: [{ name: "Listed" }, { name: "Playing" }, { name: "Played" }],
+    });
+
+    if (!status) {
+        return res
+            .status(400)
+            .send({ message: generateMessage(messageSchema.fail) });
+    }
+
+    return res.status(200).send({
+        message: generateMessage(messageSchema.success),
+    });
 };
 
 module.exports = insertMockData;

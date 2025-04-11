@@ -44,6 +44,7 @@ validationSchemas.createGame = Joi.object({
     releaseDate: Joi.date().required(),
     description: Joi.string().min(30).max(100).required(),
     score: Joi.number().precision(1).min(0).max(10).required(),
+    imageUrl: Joi.string().required(),
 });
 
 module.exports = validationSchemas;

@@ -15,7 +15,7 @@ const createAdminAccount = require("./admin/createAdminAccount");
 
 //Admin routes
 router.get("/clearDatabase", authorize, clearDatabase);
-router.post("/createMovie", validate, authorize, createGame);
+router.post("/createGame", validate, authorize, createGame);
 router.post("/createAdminAccount", validate, createAdminAccount);
 
 //User routes

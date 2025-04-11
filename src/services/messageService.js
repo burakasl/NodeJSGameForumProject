@@ -33,6 +33,9 @@ const generateMessage = (status) => {
 
         case "success":
             return "İşlem başarıyla gerçekleştirildi.";
+
+        case "fail":
+            return "İşlem gerçekleştirilemedi.";
     }
 };
 
@@ -48,6 +51,7 @@ const messageSchema = {
     createUser: "createUser",
     createAdmin: "createAdmin",
     success: "success",
+    fail: "fail",
 };
 
 module.exports = { generateMessage, messageSchema };

@@ -3,7 +3,7 @@ const prisma = require("../../prisma");
 
 const clearDatabase = async (req, res) => {
     for (const modelName of Object.values(Prisma.ModelName)) {
-        await prisma[modelName.toLowerCase()].deleteMany();
+        await prisma[modelName].deleteMany();
     }
 
     return res

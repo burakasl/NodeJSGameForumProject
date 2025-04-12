@@ -42,8 +42,10 @@ model LibraryGame {
   id          String   @id @default(uuid())
   libraryId   String
   library     Library  @relation(fields: [libraryId], references: [id], onDelete: Cascade)
-  gameId     String
-  game       Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  gameId      String
+  game        Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  statusId    String
+  status      Status    @relation(fields: [statusId], references: [id], onDelete: Restrict)
 }
 
 model Game {
@@ -69,8 +71,6 @@ model Review {
   title     String
   content   String
   score     Float
-  statusId  String
-  status    Status    @relation(fields: [statusId], references: [id], onDelete: Restrict)
   comments  Comment[]
   isActive  Boolean
   createdAt DateTime  @default(now())
@@ -90,9 +90,9 @@ model Comment {
 }
 
 model Status {
-  id      String    @id @default(uuid())
-  name    String
-  reviews Review[]
+  id          String    @id @default(uuid())
+  name        String
+  libraryGame LibraryGame[]
 }
 
 model Token {

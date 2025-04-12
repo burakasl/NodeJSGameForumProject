@@ -49,6 +49,7 @@ validationSchemas.createGame = Joi.object({
 
 validationSchemas.addGameToLibrary = Joi.object({
     gameId: Joi.string().required(),
+    statusId: Joi.string().required(),
 });
 
 module.exports = validationSchemas;

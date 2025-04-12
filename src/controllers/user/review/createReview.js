@@ -1,4 +1,4 @@
-const { dbInsert } = require("../../../services/databaseMappingService");
+const { dbInsert } = require("../../../services/databaseMapper");
 const {
     generateMessage,
     messageSchema,

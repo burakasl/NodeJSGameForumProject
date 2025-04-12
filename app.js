@@ -1,11 +1,8 @@
-const prisma = require("./src/prisma");
+const prisma = require("./prisma");
 const express = require("express");
 const app = express();
-const routes = require("./src/controllers/router");
-const {
-    generateMessage,
-    messageSchema,
-} = require("./src/services/messageService");
+const routes = require("./controllers/router");
+const { generateMessage, messageSchema } = require("./services/messageService");
 
 const port = process.env.PORT;
 

@@ -4,20 +4,18 @@ const {
     messageSchema,
 } = require("../../../services/messageService");
 
-const createReview = async (req, res) => {
-    const body = req.body;
+const createReview = async (req, res, next) => {
+    try {
+        const body = req.body;
 
-    const insertedReview = await dbInsert(body, "review");
+        await dbInsert(body, "review");
 
-    if (!insertedReview) {
         return res
-            .status(400)
-            .send({ message: generateMessage(messageSchema.databaseError) });
+            .status(200)
+            .send({ message: generateMessage(messageSchema.success) });
+    } catch (error) {
+        next(error);
     }
-
-    return res
-        .status(200)
-        .send({ message: generateMessage(messageSchema.success) });
 };
 
 module.exports = createReview;

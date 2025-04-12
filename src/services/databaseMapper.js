@@ -17,14 +17,7 @@ const dbInsert = async (body, tableName) => {
 
     data.isActive = true;
 
-    let insertedData = await prisma[tableName].create({ data: data });
-
-    insertedData = undefined;
-
-    if (!insertedData) {
-        console.log("Veri tabanı bağlantısını kontrol edin.");
-        throw new Error();
-    }
+    await prisma[tableName].create({ data: data });
 };
 
 module.exports = { dbInsert };

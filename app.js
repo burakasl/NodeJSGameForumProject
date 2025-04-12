@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(routes);
 
 app.use((error, req, res, next) => {
+    console.log(error);
     return res
         .status(400)
         .send({ message: generateMessage(messageSchema.unknownError) });

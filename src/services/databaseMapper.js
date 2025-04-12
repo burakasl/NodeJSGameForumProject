@@ -1,15 +1,13 @@
 const prisma = require("../prisma");
 const dbMappingSchemas = require("../schemas/databaseMapping");
+const {
+    generateMessage,
+    messageSchema,
+} = require("../services/messageService");
 
 const dbInsert = async (body, tableName) => {
     const data = {};
     const schema = dbMappingSchemas[tableName];
-
-    if (!schema) {
-        return {
-            code: 1,
-        };
-    }
 
     for (const field of schema) {
         if (body[field] !== undefined) {
@@ -19,22 +17,14 @@ const dbInsert = async (body, tableName) => {
 
     data.isActive = true;
 
-    const insertedData = await prisma[tableName].create({ data: data });
+    let insertedData = await prisma[tableName].create({ data: data });
+
+    insertedData = undefined;
 
     if (!insertedData) {
-        return {
-            code: 1,
-        };
+        console.log("Veri tabanı bağlantısını kontrol edin.");
+        throw new Error();
     }
-
-    return {
-        code: 0,
-        data: insertedData,
-    };
 };
 
-const dbUpdate = () => {};
-
-const dbDelete = () => {};
-
-module.exports = { dbInsert, dbUpdate, dbDelete };
+module.exports = { dbInsert };

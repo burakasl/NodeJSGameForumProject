@@ -1,6 +1,6 @@
 const dbMappingSchemas = {};
 
-dbMappingSchemas.user = ["username", "email", "password", "phone", "roleId"];
+dbMappingSchemas.user = ["username", "email", "password", "roleId"];
 
 dbMappingSchemas.game = [
     "name",

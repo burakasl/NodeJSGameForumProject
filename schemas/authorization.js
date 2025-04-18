@@ -15,6 +15,7 @@ authSchemas.user = [
     "viewProfile",
     "updateProfile",
     "addGameToLibrary",
+    "searchGame",
 ];
 
 module.exports = authSchemas;

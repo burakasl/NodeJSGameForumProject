@@ -1,6 +1,6 @@
 const prisma = require("../../../prisma");
 
-const searchGame = async (req, res, next) => {
+const getGames = async (req, res, next) => {
     try {
         const searchText = req.body.searchText;
 
@@ -11,6 +11,10 @@ const searchGame = async (req, res, next) => {
                     mode: "insensitive",
                 },
             },
+            select: {
+                id: true,
+                imageUrl: true,
+            },
         });
 
         return res.status(200).send({ games: foundGames });
@@ -19,4 +23,4 @@ const searchGame = async (req, res, next) => {
     }
 };
 
-module.exports = searchGame;
+module.exports = getGames;

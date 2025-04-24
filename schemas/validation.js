@@ -51,8 +51,4 @@ validationSchemas.addGameToLibrary = Joi.object({
     statusId: Joi.string().required(),
 });
 
-validationSchemas.searchGame = Joi.object({
-    searchText: Joi.string().required(),
-});
-
 module.exports = validationSchemas;

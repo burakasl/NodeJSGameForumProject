@@ -8,7 +8,7 @@ const login = require("./user/auth/login");
 const register = require("./user/auth/register");
 const createReview = require("./user/review/createReview");
 const addGameToLibrary = require("./user/game/addGameToLibrary");
-const searchGame = require("./user/game/searchGame");
+const getGames = require("./user/game/getGames");
 
 //Admin endpoints
 const createGame = require("./admin/createGame");
@@ -27,6 +27,6 @@ router.post("/login", validate, login);
 router.post("/register", validate, register);
 router.post("/createReview", validate, authorize, createReview);
 router.post("/addGameToLibrary", validate, authorize, addGameToLibrary);
-router.post("/searchGame", validate, authorize, searchGame);
+router.post("/getGames", getGames);
 
 module.exports = router;
